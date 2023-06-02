@@ -37,7 +37,6 @@ class JSONSaver(AbstractSaver):
         if write_to_file:
             with open(self.filename, 'w', encoding='utf-8') as file:
                 json.dump(data, file, indent=2, ensure_ascii=False)
-            print(f'Вакансии записаны в JSON файл')
         else:
             print(f'Аналогичные вакансии уже записаны в JSON файл')
 
@@ -61,10 +60,10 @@ class JSONSaver(AbstractSaver):
         else:
             print('Неверный формат данных.')
 
-        self.print_vacancies(vacancies)
-
         if not vacancies:
             print('Вакансий не найдено')
+        else:
+            self.print_vacancies(vacancies, salary_range)
         return vacancies
 
 

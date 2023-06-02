@@ -3,7 +3,6 @@ import re
 
 class Vacancy:
 
-    """class for working with vacancies"""
     """класс по работе с вакансиями"""
 
     def __init__(self, title, link, salary, description):
@@ -36,3 +35,12 @@ class Vacancy:
             self.description = self.description[:200]
             self.description += '...'
         return self.description
+
+    def compare_salary(self, other_employee):
+        if self.salary > other_employee.salary:
+            return f"{self.link}'s salary is higher than {other_employee.link}'s salary."
+        elif self.salary < other_employee.salary:
+            return f"{self.link}'s salary is lower than {other_employee.link}'s salary."
+        else:
+            return f"{self.link}'s salary is equal to {other_employee.link}'s salary."
+

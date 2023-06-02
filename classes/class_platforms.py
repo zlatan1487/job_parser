@@ -7,7 +7,7 @@ class HeadHunterAPI(AbstractJobSiteAPI):
     def get_vacancies(self, keyword, per_page=100):
         vacancies_hh = []
         if keyword == '':
-            print(f'empty line for {self.__class__.__name__[:-3]}.')
+            print(f'пустая строка для {self.__class__.__name__[:-3]}.')
             return vacancies_hh
 
         url = f'https://api.hh.ru/vacancies'
@@ -41,20 +41,20 @@ class HeadHunterAPI(AbstractJobSiteAPI):
                         vacancies_hh.append({'title': title, 'link': link, 'salary': salary, 'description': description})
 
                 else:
-                    print(f"Error occurred while fetching vacancies for page {page}")
+                    print(f"Ошибка при получении вакансий для страницы")
 
         else:
-            print("Error occurred while fetching vacancies.")
-
+            print("Ошибка при получении вакансий.")
+        print(f'найдено {len(vacancies_hh)} вакансий на платформы hh.ru')
         return vacancies_hh
 
 
 class SuperJobAPI(AbstractJobSiteAPI, Path):
 
-    def get_vacancies(self, keyword, page=None):
+    def get_vacancies(self, keyword):
         vacancies_job = []
         if keyword == '':
-            print(f'empty line for {self.__class__.__name__[:-3]}.')
+            print(f'пустая строка для {self.__class__.__name__[:-3]}.')
             return vacancies_job
 
         else:
@@ -62,21 +62,26 @@ class SuperJobAPI(AbstractJobSiteAPI, Path):
             params = {
                 'keyword': keyword,
                 'app_key': self.private_key,
-                'page': page,
+                'page': 0,
             }
 
-            response = requests.get(url, params=params)
-            data = response.json()
+            while True:
+                response = requests.get(url, params=params)
+                data = response.json()
+                if not data['objects']:
+                    break
 
-            if not data['objects']:
-                print('empty')
-            for vacancy in data.get('objects', []):
-                title = vacancy.get('profession', '')
-                link = vacancy.get('link', '')
-                salary = vacancy.get('payment_from', '')
-                description = vacancy.get('vacancyRichText', '')
-                vacancies_job.append({'title': title, 'link': link, 'salary': salary, 'description': description})
+                for vacancy in data['objects']:
+                    title = vacancy.get('profession', '')
+                    link = vacancy.get('link', '')
+                    salary = vacancy.get('payment_from', '')
+                    description = vacancy.get('vacancyRichText', '')
+                    vacancies_job.append({'title': title, 'link': link, 'salary': salary, 'description': description})
 
+                if 'more' in data:
+                    params['page'] += 1
+                else:
+                    break
+            print(f'найдено {len(vacancies_job)} вакансий на платформы super job.ru')
             return vacancies_job
-
 
