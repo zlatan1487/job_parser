@@ -1,6 +1,6 @@
 from classes.class_platforms import HeadHunterAPI, SuperJobAPI
 from classes.class_json_save import JSONSaver
-from utils import get_vacancy_function
+from utils.utils import get_vacancy_function
 
 
 # передача данных от классов платформ в переменные
@@ -8,11 +8,12 @@ hh_api = HeadHunterAPI()
 job_api = SuperJobAPI()
 
 # выбор вакансий по ключевому слову
-search_name_vacancy = input('выберите вакансию по ключевому слову например:[javascript, python, erlang]: ').strip()
+search_name_vacancy = input('выберите вакансию по ключевому слову например:[javascript, python, erlang, java, стоматолог]: ').strip()
 
 # вызов метода классов [HeadHunterAPI, SuperJobAPI] get_vacancies для получения вакансий
 get_hh_vacancy = hh_api.get_vacancies(search_name_vacancy)
 get_job_vacancy = job_api.get_vacancies(search_name_vacancy)
+type(get_hh_vacancy)
 
 # вызов функции "get_vacancy_function" из файла utils в которой создаеться экземпляр класса Vacancy для платформ
 example_vacancy_hh = get_vacancy_function(get_hh_vacancy)
@@ -30,6 +31,9 @@ json_saver_job.add_vacancy(example_vacancy_job)
 
 
 def user_interaction():
+    """
+    функция осуществляет взаимодействие с пользователем
+    """
 
     search_salary = input('поиск вакансий, укажите зарплату (от...): ')
 
