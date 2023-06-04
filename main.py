@@ -13,7 +13,7 @@ search_name_vacancy = input('выберите вакансию по ключев
 # вызов метода классов [HeadHunterAPI, SuperJobAPI] get_vacancies для получения вакансий
 get_hh_vacancy = hh_api.get_vacancies(search_name_vacancy)
 get_job_vacancy = job_api.get_vacancies(search_name_vacancy)
-type(get_hh_vacancy)
+
 
 # вызов функции "get_vacancy_function" из файла utils в которой создаеться экземпляр класса Vacancy для платформ
 example_vacancy_hh = get_vacancy_function(get_hh_vacancy)
