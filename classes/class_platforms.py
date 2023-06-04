@@ -68,7 +68,11 @@ class SuperJobAPI(AbstractJobSiteAPI, Path):
             while True:
                 response = requests.get(url, params=params)
                 data = response.json()
-                if not data['objects']:
+                try:
+                    if not data['objects']:
+                        break
+                except KeyError:
+                    print("Ошибка: непредвиденный формат ответа от SuperJob API.")
                     break
 
                 for vacancy in data['objects']:
